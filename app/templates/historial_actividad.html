@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="p-4 max-w-xl mx-auto bg-gray-800 rounded shadow">
+    <h2 class="text-yellow-400 text-xl font-bold mb-4">Perfil de Usuario</h2>
+
+    {% if user.profilephotourl %}
+        <img src="{{ user.profilephotourl }}" class="w-24 h-24 rounded-full mb-4" />
+    {% endif %}
+
+    <form hx-post="/user/profile" hx-target="#profile-response" hx-swap="innerHTML">
+        <label class="block text-white">Nombre de usuario:</label>
+        <input type="text" name="username" value="{{ user.username }}" class="w-full p-2 rounded bg-gray-700 text-white mb-2" />
+
+        <label class="block text-white">Email:</label>
+        <input type="email" name="email" value="{{ user.email }}" class="w-full p-2 rounded bg-gray-700 text-white mb-2" />
+
+        <label class="block text-white">Nueva contraseña:</label>
+        <input type="password" name="password" class="w-full p-2 rounded bg-gray-700 text-white mb-2" />
+
+        <button type="submit" class="bg-yellow-500 text-black px-4 py-2 rounded hover:bg-yellow-400">Guardar cambios</button>
+    </form>
+
+    <div id="profile-response" class="mt-2 text-green-400"></div>
+    </div>
+</body>
+</html>

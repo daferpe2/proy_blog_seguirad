@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="max-w-4xl mx-auto mt-10">
+  <h2 class="text-2xl font-bold text-gray-800 mb-6">Lista de Usuarios</h2>
+
+  <table class="min-w-full bg-white border border-gray-300 rounded shadow">
+    <thead class="bg-gray-100">
+      <tr>
+        <th class="text-left py-3 px-4 font-semibold text-gray-700">ID</th>
+        <th class="text-left py-3 px-4 font-semibold text-gray-700">Nombre</th>
+        <th class="text-left py-3 px-4 font-semibold text-gray-700">Correo</th>
+        <th class="text-left py-3 px-4 font-semibold text-gray-700">Rol</th>
+        <th class="text-left py-3 px-4 font-semibold text-gray-700">Activo</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in users %}
+      <tr class="border-t">
+        <td class="py-2 px-4 text-gray-800"><a href="/update_general_form/{{ user.id }}">{{ user.id }} </a></td>
+        <td class="py-2 px-4 text-gray-800">{{ user.name }}</td>
+        <td class="py-2 px-4 text-gray-800">{{ user.email }}</td>
+        <td class="py-2 px-4 text-gray-800">{{ user.role }}</td>
+        <td class="py-2 px-4 text-gray-800">
+          {% if user.is_active %}
+            <span class="text-green-600 font-semibold">Sí</span>
+          {% else %}
+            <span class="text-red-600 font-semibold">No</span>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

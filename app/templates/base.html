@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tu Revista</title>
+  <link href="/app/static/tailwind.css" rel="stylesheet" />
+  <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white font-sans">
+
+  <!-- Header -->
+  <header class="bg-gray-800 p-4 flex justify-between items-center">
+    <h1 class="text-xl font-bold"><a href="/">📰 Observatorio de Seguridad</a></h1>
+
+
+    <ul class="flex space-x-2">
+      <li>
+        <!-- <p><a hx-get="/login"
+          hx-target="#main-content"
+          hx-swap = "innerHTML">Login</a></p> -->
+          <form action="/login" method="GET">
+          <input type="submit" value="Loging",
+          class="bg-green-500 hover:bg-red-500 text-white px-3 py-1 rounded">
+          </form>
+
+        </li>
+    </ul>
+
+    <button 
+      hx-get="/home" 
+      hx-target="#main-content" 
+      hx-swap="innerHTML"
+      class="flex space-x-2 bg-yellow-500 hover:bg-red-500 text-black px-3 py-1 rounded"
+    >
+      Artículos
+    </button>
+
+  </header>
+
+  <!-- Main content -->
+  <main id="main-content" class="p-4">
+    <ul class="flex space-x-6">
+      <li>
+        <p><a hx-get="/perfil"
+          hx-target="#main-content"
+          hx-swap = "innerHTML"
+          class="bg-orange-300 hover:bg-red-500 text-sm text-white px-2 py-1 rounded"
+          >Perfil</a></p>
+      </li>
+      <li>
+        <p><a hx-get="/create_general_form_articulo"
+          hx-target="#main-content"
+          hx-swap = "innerHTML"
+          class="bg-orange-300 hover:bg-red-500 text-sm text-white px-2 py-1 rounded"
+          >Cr. Art</a></p>
+      </li>
+      <li>
+          <a hx-get="/list_users"
+          hx-target="#main-content"
+          hx-swap = "innerHTML"
+          class="bg-orange-300 hover:bg-red-500 text-sm text-white px-2 py-1 rounded"
+          >Usuarios
+          </a>
+      </li>
+
+    <li>
+      <p><a hx-get="/search"
+        hx-target="#main-content"
+        hx-swap = "innerHTML"
+        class="bg-orange-300 hover:bg-red-500 text-sm text-white px-2 py-1 rounded"
+        >Buscar</a></p>
+    </li>
+  </ul>
+  
+    <p class="text-gray-400">Haz clic en “Cargar artículos” para ver contenido.</p>
+  </main>
+
+</body>
+</html>

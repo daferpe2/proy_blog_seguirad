@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Artículo</title>
+    <link href="/static/tailwind.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+</head>
+
+<body>
+    <h1>Crear Artículo</h1>
+    <form action="/creacionarticle" method="post" enctype="multipart/form-data">
+
+        <label for="title">Título:</label>
+        <input type="text" id="title" name="title" required class="mt-1 block w-full flex items-center text-black">
+
+        <label for="content">Contenido:</label>
+        <textarea id="content" name="content" rows="4" cols="50" class="mt-1 block w-full flex items-center text-black"></textarea>
+
+        <label for="tipo">Tipo:</label>
+        <select id="tipo" name="tipo" class="mt-1 block w-full flex items-center text-black">
+            <option value="opinión">Opinión</option>
+            <option value="análisis">Análisis</option>
+            <!-- Agrega opciones según el enum Tipo -->
+        </select>
+
+        <label for="summary">Resumen:</label>
+        <textarea id="summary" name="summary" rows="4" class="mt-1 block w-full flex items-center text-black"></textarea>
+
+        <label for="authorid">Autor ID:</label>
+        <input type="hidden" id="authorid" name="authorid" value="{{ user.id }}" class="mt-1 block w-full flex items-center text-black">
+
+        <label for="author">Autor:</label>
+        <input type="hidden" id="author" name="{{ user.name }}" value="{{ user.name }}" class="mt-1 block w-full flex items-center text-black">
+
+        <button type="submit"
+        class="mt-1 block w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-300 transition">
+        Crear Artículo</button>
+    </form>
+
+
+</body>
+</html>

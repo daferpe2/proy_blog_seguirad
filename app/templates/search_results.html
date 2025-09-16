@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white font-sans">
+    {% for article in articles %}
+    <div class="bg-gray-800 p-4 rounded mb-2">
+        <h3 class="text-yellow-400 font-semibold">{{ article.title }}
+            <a href="/"> | Home</a>
+        </h3>
+        <p class="text-gray-300 text-sm">{{ article.content[:120] }}...</p>
+        <a href="/leerarticulo/{{ article.id }}" class="text-blue-400 hover:underline">Leer más</a>
+    </div>
+    {% else %}
+    <p class="text-gray-400">No se encontraron artículos.</p>
+    {% endfor %}
+
+</body>
+</html>

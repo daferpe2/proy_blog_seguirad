@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form hx-post="/user/upload-photo" hx-target="#photo-response" hx-encoding="multipart/form-data">
+        <label class="block text-white">Foto de perfil:</label>
+        <input type="file" name="file" accept="image/*" class="mb-2" />
+        <button type="submit" class="bg-yellow-500 text-black px-4 py-2 rounded hover:bg-yellow-400">Subir</button>
+    </form>
+    <div id="photo-response" class="mt-2 text-green-400"></div>
+</body>
+</html>

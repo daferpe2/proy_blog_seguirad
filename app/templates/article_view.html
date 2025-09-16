@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ article.title }}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body class="bg-gray-900 text-white font-sans justify-start min-h-screen">
+  <!-- Encabezado -->
+  <header class="bg-gray-800 p-4 flex justify-between items-center">
+    <h1 class="text-md font-bold text-yellow-400">{{ article.title }}</h1>
+    <p class="text-sm text-gray-400"><a href="/">Home</a></p>
+    <p class="text-sm text-gray-400">Publicado {{ article.createdat }}</p>
+  </header>
+
+  <!-- Imagen destacada -->
+  {% if article.image_url %}
+  <div class="w-full h-64 bg-cover bg-center max-w-md mx-auto space-y-2" style="background-image: url('{{ article.image_url }}');"></div>
+  {% endif %}
+
+  <!-- Contenido Markdown -->
+  <main class="p-6 max-w-3xl max-w-none text-justify p-2 space-y-2">
+    <div id="markdown-content" class="prose prose-invert max-w-none"></div>
+  </main>
+
+
+  <div class="mt-8 max-w-md max-w-3xl text-justify p-2 space-y-2">
+    <h3 class="text-yellow-400 text-lg font-sans mb-4 text-left">Comentarios</h3>
+    {% for comment in comments %}
+    <div class="text-sm text-gray-400 bg-gray-800 p-3 rounded mb-2">
+      <p class="text-white text-justify">{{ comment.content }}</p>
+      <p class="text-gray-400 text-sm text-right">Publicado por {{ comment.user.name }} el {{ comment.createddat }}</p>
+    </div>
+    {% endfor %}
+  </div>
+
+
+
+  <div class="mt-6 max-w-md max-w-none p-2 space-y-2">
+    <h3 class="text-yellow-400 text-lg font-sans mb-4 text-left">Comentar</h3>
+    <form method="post" action="/creacioncoment" hx-swap="innerHTML" class="space-y-2">
+      <input type="hidden" name="article_id" value="{{ article.id }}" />
+      <textarea name="comment" rows="3" class="w-full p-2 rounded bg-gray-800 text-white mb-2 text-justify" placeholder="Escribe tu comentario..."></textarea>
+      <button type="submit" class="bg-yellow-500 text-black px-4 py-2 rounded hover:bg-yellow-400 w-full">Publicar</button>
+    </form>
+    <div id="comment-response" class="mt-2 text-green-400 text-center"></div>
+  </div>
+
+  <script type="application/json" id="raw-markdown">
+    {{ article.content | tojson }}
+  </script>
+
+  <script>
+    const rawMarkdown = JSON.parse(document.getElementById("raw-markdown").textContent);
+    document.getElementById("markdown-content").innerHTML = marked.parse(rawMarkdown);
+  </script>
+
+
+
+</body>
+</html>

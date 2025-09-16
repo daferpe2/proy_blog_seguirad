@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Usuarios</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 p-6">
+    <div class="max-w-4xl mx-auto bg-white shadow-md rounded p-6">
+        <h1 class="text-2xl font-bold mb-4">Usuarios registrados</h1>
+
+    <table class="min-w-full bg-white border border-gray-300 rounded shadow">
+        <thead class="bg-gray-100">
+        <tr>
+            <th class="text-left py-3 px-4 font-semibold text-gray-700">ID</th>
+            <th class="text-left py-3 px-4 font-semibold text-gray-700">Nombre</th>
+            <th class="text-left py-3 px-4 font-semibold text-gray-700">Correo</th>
+            <th class="text-left py-3 px-4 font-semibold text-gray-700">Rol</th>
+            <th class="text-left py-3 px-4 font-semibold text-gray-700">Activo</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+        <tr class="border-t">
+            <td class="py-2 px-4 text-gray-800"><a href="/update_general_form/{{ user.id }}">{{ user.id }} </a></td>
+            <td class="py-2 px-4 text-gray-800">{{ user.name }}</td>
+            <td class="py-2 px-4 text-gray-800">{{ user.email }}</td>
+            <td class="py-2 px-4 text-gray-800">{{ user.role }}</td>
+            <td class="py-2 px-4 text-gray-800">
+            {% if user.is_active %}
+                <span class="text-green-600 font-semibold">Sí</span>
+            {% else %}
+                <span class="text-red-600 font-semibold">No</span>
+            {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <!-- Paginación -->
+        <div class="flex justify-between items-center mt-6">
+            {% if page > 1 %}
+            <a href="?page={{ page - 1 }}" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Anterior</a>
+            {% else %}
+            <span></span>
+            {% endif %}
+
+            <span class="text-gray-700">Página {{ page }} de {{ total_pages }}</span>
+
+            {% if page < total_pages %}
+            <a href="?page={{ page + 1 }}" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Siguiente</a>
+            {% else %}
+            <span></span>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="/app/static/tailwind.css" rel="stylesheet" />
+    <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+<body class="bg-gray-900 text-white font-sans">
+    
+    <form method="post" action="/update_general_form/{{ user.id }}" class="max-w-md mx-auto space-y-6"
+    id="miFormulario" enctype="multipart/form-data">
+    <div>
+        <!-- <input type="number" name="user.id" value="{{ user.id }}"> -->
+        <label for="name" class="block text-sm font-medium text-gray-700">Nombre</label>
+        <input type="text" id="name" name="name" value="{{ user.name }}"
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm text-black focus:ring-blue-500 focus:border-blue-500" />
+    </div>
+
+    <div>
+        <label for="email" class="block text-sm font-medium text-gray-700">Correo electrónico</label>
+        <input type="email" id="email" name="email" value="{{ user.email }}"
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm text-black focus:ring-blue-500 focus:border-blue-500" />
+    </div>
+
+    <div>
+        <label for="pass_hass" class="block text-sm font-medium text-gray-700">Nueva contraseña</label>
+        <input type="password" id="pass_hass" name="pass_hass"
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm text-black focus:ring-blue-500 focus:border-blue-500" />
+    </div>
+
+    <div>
+        <label for="role" class="block text-sm font-medium text-gray-700">Rol</label>
+        <select id="role" name="role"
+                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm text-black focus:ring-blue-500 focus:border-blue-500">
+        <option value="reader" >Lector</option>
+        <option value="admon">Administrador</option>
+        <option value="moderator">moderator</option>
+        <option value="author">Autor</option>
+        </select>
+    </div>
+
+    <div class="flex items-center">
+        <select id="is_active" name="is_active"
+                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm text-black focus:ring-blue-500 focus:border-blue-500">
+        <option value="true">Activo</option>
+        <option value="false" >Inactivo</option>
+        </select>
+    </div>
+
+    <button type="submit"
+            class="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition">
+        Actualizar usuario
+    </button>
+    </form>
+</body>
+</html>

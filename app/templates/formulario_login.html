@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="/static/tailwind.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+</head>
+<body class="bg-gray-900 text-white font-sans">
+    <header class="bg-gray-800 p-4 flex justify-between items-center">
+        <div id="login-form">
+        <h2>Login</h2>
+    </header>
+    <div class="p-4 max-w-xl mx-auto bg-gray-800 rounded shadow mb-2 w-full">
+        <form action="/users/login" method="post" enctype="multipart/form-data">
+          <label class="flex flex-col gap-4 w-full max-w-sm mx-auto">Usuario:</label>
+          <input type="text" name="username" required class="flex flex-col gap-4 w-full max-w-sm mx-auto text text-black"><br>
+          <label class="flex flex-col gap-4 w-full max-w-sm mx-auto">Contraseña:</label>
+          <input type="password" name="password" required class="flex flex-col gap-4 w-full max-w-sm mx-auto text text-black"><br>
+          <button class="bg-yellow-500 text-black px-3 py-1 rounded hover:bg-yellow-400 flex flex-col gap-4 w-full max-w-sm mx-auto"
+            type="submit">Iniciar sesión</button>
+        </form>
+    </div>
+
+<!-- <div class="flex flex-col gap-4 w-full max-w-sm mx-auto">
+  <label class="text-gray-700 font-medium">Usuario</label>
+  <input 
+    type="text" 
+    placeholder="Ingresa tu usuario" 
+    class="text-black border border-gray-300 rounded px-4 py-2 text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+  />
+
+  <label class="text-gray-700 font-medium">Contraseña</label>
+  <input 
+    type="password" 
+    placeholder="Ingresa tu contraseña" 
+    class="text-black border-gray-300 rounded px-4 py-2 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+  />
+</div> -->
+
+
+    <!-- </header> -->
+</body>
+</html>
