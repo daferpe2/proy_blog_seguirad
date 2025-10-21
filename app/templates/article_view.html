@@ -11,7 +11,6 @@
   <!-- Encabezado -->
   <header class="bg-gray-800 p-4 flex justify-between items-center">
     <h1 class="text-md font-bold text-yellow-400">{{ article.title }}</h1>
-    <p class="text-sm text-gray-400"><a href="/">Home</a></p>
     <p class="text-sm text-gray-400">Publicado {{ article.createdat }}</p>
   </header>
 
@@ -22,7 +21,9 @@
 
   <!-- Contenido Markdown -->
   <main class="p-6 max-w-3xl max-w-none text-justify p-2 space-y-2">
-    <div id="markdown-content" class="prose prose-invert max-w-none"></div>
+    <!-- <article class="flex max-w-lg flex-col items-center justify-center rounded-3xl border boder-gray-200 p-7 shadow-2xl"> -->
+      <div id="markdown-content" class="prose prose-invert max-w-none"></div>
+    </article>
   </main>
 
 
@@ -45,8 +46,12 @@
       <textarea name="comment" rows="3" class="w-full p-2 rounded bg-gray-800 text-white mb-2 text-justify" placeholder="Escribe tu comentario..."></textarea>
       <button type="submit" class="bg-yellow-500 text-black px-4 py-2 rounded hover:bg-yellow-400 w-full">Publicar</button>
     </form>
-    <div id="comment-response" class="mt-2 text-green-400 text-center"></div>
-  </div>
+    <form action="/" method="get">
+      <button type="submit" class="bg-green-500 text-black px-4 py-2 rounded hover:bg-green-500 w-full">
+        Home
+      </button>
+    </form>
+
 
   <script type="application/json" id="raw-markdown">
     {{ article.content | tojson }}
@@ -55,8 +60,34 @@
   <script>
     const rawMarkdown = JSON.parse(document.getElementById("raw-markdown").textContent);
     document.getElementById("markdown-content").innerHTML = marked.parse(rawMarkdown);
+  
   </script>
 
+  <script>
+      async function verificarToken() {
+          try {
+              const response = await fetch("/api/protegido", {
+                  method: "GET",
+                  headers: {
+                      "Authorization": "Bearer " + localStorage.getItem("access_token")
+                  }
+              });
+
+              if (response.status === 401) {
+                  const data = await response.json();
+                  if (data.redirect_to === "/login") {
+                      window.location.href = "/login";
+                  }
+              } else {
+                  const data = await response.json();
+                  console.log("Datos protegidos:", data);
+              }
+
+          } catch (error) {
+              console.error("Error al verificar token:", error);
+          }
+      }
+  </script>
 
 
 </body>

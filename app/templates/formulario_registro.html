@@ -3,24 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link href="/app/static/tailwind.css" rel="stylesheet" />
+    <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Registro</title>
 </head>
-<body>
-    <div id="register-form">
-    <h2>Registro</h2>
-    <form hx-post="/register" hx-target="#register-response" hx-swap="innerHTML">
-        <label>Usuario:</label>
-        <input type="text" name="username" required><br>
+<body class="bg-gray-900 text-white font-sans">
+    <div class="p-4 max-w-xl mx-auto bg-gray-800 rounded shadow">
+    <h2 class="text-yellow-400 text-xl font-bold mb-4">Formulario de Registro</h2>
 
-        <label>Email:</label>
-        <input type="email" name="email" required><br>
+    <!-- hx-target="#profile-response" -->
+    <form method="post" action="/register" enctype="multipart/form-data" hx-swap="innerHTML">
+        <label class="block text-white">Nombre de usuario:</label>
+        <input type="text" name="name" id="name"  class="w-full p-2 rounded bg-gray-700 text-white mb-2" />
 
-        <label>Contraseña:</label>
-        <input type="password" name="password" required><br>
+        <label class="block text-white">Email:</label>
+        <input type="email" name="email" id="email" class="w-full p-2 rounded bg-gray-700 text-white mb-2" />
 
-        <button type="submit">Registrarse</button>
+        <label class="block text-white">Contraseña:</label>
+        <input type="password" name="pass_hass" id="pass_hass" class="w-full p-2 rounded bg-gray-700 text-white mb-2" />
+
+
+        <label for="role" class="block text-white">Rol</label>
+        <select id="role" name="role"
+                class="w-full p-2 rounded bg-gray-700 text-white mb-2 focus:ring-blue-500 focus:border-blue-500">
+        <option value="reader" >Lector</option>
+        <option value="admon">Administrador</option>
+        <option value="moderator">Moderator</option>
+        <option value="author">Autor</option>
+        </select>
+
+        <select id="is_active" name="is_active"
+        class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm text-black focus:ring-blue-500 focus:border-blue-500">
+        <option value="true">Activo</option>
+        <option value="false" >Inactivo</option>
+        </select>
+
+        <button type="submit" class="mt-2 w-full bg-yellow-600 text-white py-2 px-4 rounded hover:bg-yellow-700 transition">Guardar</button>
     </form>
-    <div id="register-response"></div>
+
+
+    <div id="profile-response" class="mt-2 text-green-400"></div>
     </div>
 </body>
 </html>

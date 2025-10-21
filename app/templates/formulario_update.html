@@ -9,52 +9,49 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
 </head>
+
 <body class="bg-gray-900 text-white font-sans">
-    
-    <form method="post" action="/update_general_form/{{ user.id }}" class="max-w-md mx-auto space-y-6"
-    id="miFormulario" enctype="multipart/form-data">
-    <div>
-        <!-- <input type="number" name="user.id" value="{{ user.id }}"> -->
-        <label for="name" class="block text-sm font-medium text-gray-700">Nombre</label>
-        <input type="text" id="name" name="name" value="{{ user.name }}"
-            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm text-black focus:ring-blue-500 focus:border-blue-500" />
-    </div>
+    <div class="p-4 max-w-xl mx-auto bg-gray-800 rounded shadow">
+    <h2 class="text-yellow-400 text-xl font-bold mb-4">Formulario de Actualización</h2>
 
-    <div>
-        <label for="email" class="block text-sm font-medium text-gray-700">Correo electrónico</label>
-        <input type="email" id="email" name="email" value="{{ user.email }}"
-            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm text-black focus:ring-blue-500 focus:border-blue-500" />
-    </div>
+    <!-- hx-target="#profile-response" -->
+    <form method="post" action="/update_general_form/{{ user.id }}" enctype="multipart/form-data" hx-swap="innerHTML">
+        <label class="block text-white">Nombre de usuario:</label>
+        <input type="text" name="name" id="name"  value="{{ user.name }}" class="w-full p-2 rounded bg-gray-700 text-white mb-2" />
 
-    <div>
-        <label for="pass_hass" class="block text-sm font-medium text-gray-700">Nueva contraseña</label>
-        <input type="password" id="pass_hass" name="pass_hass"
-            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm text-black focus:ring-blue-500 focus:border-blue-500" />
-    </div>
+        <label class="block text-white">Email:</label>
+        <input type="email" name="email" value="{{ user.email }}" id="email" class="w-full p-2 rounded bg-gray-700 text-white mb-2" />
 
-    <div>
-        <label for="role" class="block text-sm font-medium text-gray-700">Rol</label>
+        <label class="block text-white">Contraseña:</label>
+        <input type="password" name="pass_hass" id="pass_hass" class="w-full p-2 rounded bg-gray-700 text-white mb-2"/>
+
+
+        <label for="role" class="block text-white">Rol</label>
         <select id="role" name="role"
-                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm text-black focus:ring-blue-500 focus:border-blue-500">
+                class="w-full p-2 rounded bg-gray-700 text-white mb-2 focus:ring-blue-500 focus:border-blue-500">
         <option value="reader" >Lector</option>
         <option value="admon">Administrador</option>
         <option value="moderator">moderator</option>
         <option value="author">Autor</option>
         </select>
-    </div>
 
-    <div class="flex items-center">
         <select id="is_active" name="is_active"
                 class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm text-black focus:ring-blue-500 focus:border-blue-500">
         <option value="true">Activo</option>
         <option value="false" >Inactivo</option>
         </select>
-    </div>
 
-    <button type="submit"
-            class="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition">
-        Actualizar usuario
-    </button>
+
+        <button type="submit"
+                class="mt-2 w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition">
+            Actualizar usuario
+        </button>
+
     </form>
+
+
+    <div id="profile-response" class="mt-2 text-green-400"></div>
+    </div>
 </body>
+
 </html>

@@ -1,10 +1,11 @@
 from datetime import datetime, timedelta, timezone
-from jose import jwt, JWTError
+from fastapi import HTTPException,status
+from jose import ExpiredSignatureError, jwt, JWTError
 import uuid
 
 
 class TokenManager:
-    def __init__(self, secret_key: str, algorithm: str = "HS256", expire_minutes: int = 15):
+    def __init__(self, secret_key: str, algorithm: str = "HS256", expire_minutes: int = 45):
         self.secret_key = secret_key
         self.algorithm = algorithm
         self.expire_minutes = expire_minutes
@@ -24,12 +25,18 @@ class TokenManager:
 
     def decode_token(self, token: str) -> dict:
         try:
-            decoded = jwt.decode(token, self.secret_key, algorithms=[self.algorithm])
-            if self.is_token_revoked(decoded.get("jti")):
-                raise JWTError("Token has been revoked")
-            return decoded
-        except JWTError as e:
-            raise ValueError(f"Invalid token: {str(e)}")
+            payload = jwt.decode(token, self.secret_key, algorithms=["HS256"])
+            return payload
+        except ExpiredSignatureError:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Token expirado"
+            )
+        except JWTError:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Token inválido"
+            )
 
     def invalidate_token(self, token: str):
         decoded = jwt.decode(token, self.secret_key, algorithms=[self.algorithm])
