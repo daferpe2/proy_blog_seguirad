@@ -25,21 +25,26 @@ class UserBase(SQLModel):
     is_active: bool= Field(default=True)
     profilephotourl: Optional[str] = Field(default=None)
 
-class UserCreate(UserBase):...
+class UserCreate(UserBase):
+    name: Optional[str] = "John Dove"
+    email: Optional[EmailStr] = "John_Dove@example.com"
+    pass_hass: Optional[str]
+    role: Optional[Role] = Role.reader
+    is_active: Optional[bool] = True
 
 
 class UserUpate(SQLModel):
-    name: Optional[str]
-    email: Optional[EmailStr]
-    pass_hass: Optional[str]
-    role: Optional[Role]
-    is_active: Optional[bool]
+    name: Optional[str] = None
+    email: Optional[EmailStr] = None
+    pass_hass: Optional[str] = None
+    role: Optional[Role] = None
+    is_active: Optional[bool] = None
 
 
 class UserUpatePerfil(SQLModel):
-    name: Optional[str]
-    email: Optional[EmailStr]
-    pass_hass: Optional[str]
+    name: Optional[str] = None
+    email: Optional[EmailStr] = None
+    pass_hass: Optional[str] = None
 
 
 class UserPhotoUpdate(SQLModel):
