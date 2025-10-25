@@ -116,13 +116,8 @@ def get_current_user(
 
 @router.get("/register_form",response_class=HTMLResponse,tags=["Blog"])
 async def register_form(session:SessionDep,request:Request,
-                        access_token: Annotated[str | None, Cookie()] = None,
-                        admin: User = Depends(get_current_user)
                         ):
-    if access_token is None or admin.role != Role.admon:
-        return RedirectResponse("/login",status_code=status.HTTP_302_FOUND)
-    
-    return templates.TemplateResponse("formulario_registro.html", {"request": request,"user":admin})
+    return templates.TemplateResponse("formulario_registro.html", {"request": request})
 
 
 @router.post("/register",response_class=HTMLResponse,tags=["Register"])
@@ -130,18 +125,13 @@ async def register(session:SessionDep,
                    name:Annotated[str,Form(...)],
                    email: Annotated[str,Form(...)],
                    pass_hass: Annotated[str,Form(...)],
-                   role: Annotated[str,Form(...)],
-                   is_active: Annotated[bool,Form(...)],
-                   access_token: Annotated[str | None, Cookie()] = None,
-                   admin: User = Depends(get_current_user)):
+                   ):
     
-    if access_token is None or admin is None:
-        return RedirectResponse("/login",status_code=status.HTTP_302_FOUND)
     dbuser = UserCreate(name=name,email=email,pass_hass=get_password_hass(pass_hass),
-                  role=role,is_active=is_active)
+                  )
     
     user = User.model_validate(dbuser.model_dump())
-    
+
     session.add(user)
     session.commit()
     session.refresh(user)
