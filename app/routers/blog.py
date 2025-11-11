@@ -139,39 +139,17 @@ async def register(session:SessionDep,
 
 
 @router.get("/leerarticulo/{article_id}", response_model=Article, tags=["Blog"])
-async def read_article(request: Request,article_id: int,
-    session: SessionDep,
-    access_token: Annotated[str | None, Cookie()] = None, 
-    user: User = Depends(get_current_user)
-    # user: Annotated[User, Depends(get_current_user)]
-):
-    if access_token is None:
-        return RedirectResponse("/login",status_code=status.HTTP_302_FOUND)
-
-    try:
-        payload = TokenManager(secret_key=SECRET_KEY).decode_token(token=access_token)
-    except HTTPException as e:
-        if e.detail in ["Token expirado","Token inválido"]:
-            return RedirectResponse("/login",status_code=status.HTTP_302_FOUND)
-
-        raise e
-
-    if user.is_active is False:
-        return RedirectResponse("/",status_code=status.HTTP_302_FOUND)
-    # if isinstance(user, User) and decode_token:
-    if payload:
-        ARTICLE = session.exec(select(Article).where(Article.id == article_id)).first()
-        COMMENTS = session.exec(select(Comment).where(Comment.articleid == article_id)).all()
-        if not ARTICLE:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="Artículo no encontrado"
-            )
-
+async def read_article(request: Request,article_id: int,session: SessionDep):
+    ARTICLE = session.exec(select(Article).where(Article.id == article_id)).first()
+    COMMENTS = session.exec(select(Comment).where(Comment.articleid == article_id)).all()
+    if not ARTICLE:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Artículo no encontrado"
+        )
     return templates.TemplateResponse("article_view.html", {"request": request,
                                                             "article":ARTICLE,
                                                             "comments":COMMENTS})
-
 
 @router.get("/login",response_class=HTMLResponse,tags=["Blog"])
 async def login(session:SessionDep,request:Request):
@@ -576,4 +554,5 @@ async def searcharticles(request: Request,
     query = session.exec(select(Article).where(Article.searchvector.ilike(f"%{q}%"))).all()
     return templates.TemplateResponse("search_results.html",
                                       {"request":request,"articles":query})
+
 
