@@ -86,7 +86,7 @@ async def articles(session:SessionDep,request:Request):
     Returns:
         _type_: Listado de todos los articulos guardados en la base de datos con un template llamado Home
     """
-    ARTICLES = session.exec(select(Article)).all()
+    ARTICLES = session.exec(select(Article).order_by(Article.id.desc())).all()
     return templates.TemplateResponse("home.html", {"request": request, "articles": ARTICLES})
 
 # Colocar el Cookie de tiempo en get_user para ver si funcina aqui
@@ -139,7 +139,10 @@ async def register(session:SessionDep,
 
 
 @router.get("/leerarticulo/{article_id}", response_model=Article, tags=["Blog"])
-async def read_article(request: Request,article_id: int,session: SessionDep):
+async def read_article(request: Request,article_id: int,
+    session: SessionDep,
+):
+
     ARTICLE = session.exec(select(Article).where(Article.id == article_id)).first()
     COMMENTS = session.exec(select(Comment).where(Comment.articleid == article_id)).all()
     if not ARTICLE:
@@ -147,9 +150,11 @@ async def read_article(request: Request,article_id: int,session: SessionDep):
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Artículo no encontrado"
         )
+
     return templates.TemplateResponse("article_view.html", {"request": request,
                                                             "article":ARTICLE,
                                                             "comments":COMMENTS})
+
 
 @router.get("/login",response_class=HTMLResponse,tags=["Blog"])
 async def login(session:SessionDep,request:Request):
@@ -554,5 +559,4 @@ async def searcharticles(request: Request,
     query = session.exec(select(Article).where(Article.searchvector.ilike(f"%{q}%"))).all()
     return templates.TemplateResponse("search_results.html",
                                       {"request":request,"articles":query})
-
 
