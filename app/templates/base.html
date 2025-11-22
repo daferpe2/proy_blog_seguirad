@@ -3,100 +3,93 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tu Revista</title>
-  <link href="/app/static/tailwind.css" rel="stylesheet" />
-  <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+  <title>{{ article.title }}</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
-<body class="bg-gray-900 text-white font-sans">
 
-  <!-- Header -->
-  <header class="bg-gray-800 p-4 flex justify-between items-center">
-    <h1 class="text-white text-xl"><a href="/">📰 Observatorio de Seguridad</a></h1>
-
-
-    <ul class="flex space-x-2">
-      <li>
-        <!-- <p><a hx-get="/login"
-          hx-target="#main-content"
-          hx-swap = "innerHTML">Login</a></p> -->
-          <form action="/login" method="GET">
-          <input type="submit" value="Login",
-          class="bg-green-500 hover:bg-red-500 text-white px-3 py-1 rounded">
-          </form>
-
-        </li>
-    </ul>
-
-    <button 
-      hx-get="/home" 
-      hx-target="#main-content" 
-      hx-swap="innerHTML"
-      class="flex space-x-2 bg-yellow-500 hover:bg-red-500 text-black px-3 py-1 rounded"
-    >
-      Artículos
-    </button>
-
+<body class="bg-white-100 text-black font-sans justify-start min-h-screen">
+  <!-- Encabezado -->
+  <header class="bg-black p-4 flex justify-between items-center">
+    <h1 class="text-md font-bold text-white">{{ article.title }}</h1>
+    <p class="text-sm text-gray-700">Publicado {{ article.createdat }}</p>
   </header>
 
-  <!-- Main content -->
-  <main id="main-content" class="p-4">
-    <ul class="flex space-x-6">
-      <li>
-        <p><a hx-get="/perfil"
-          hx-target="#main-content"
-          hx-swap = "innerHTML"
-          class="bg-orange-300 hover:bg-red-500 text-sm text-white px-2 py-1 rounded"
-          >Perfil</a></p>
-      </li>
-      <li>
-        <p><a hx-get="/create_general_form_articulo"
-          hx-target="#main-content"
-          hx-swap = "innerHTML"
-          class="bg-orange-300 hover:bg-red-500 text-sm text-white px-2 py-1 rounded"
-          >Publicar</a></p>
-      </li>
-      <li>
-          <a hx-get="/list_users"
-          hx-target="#main-content"
-          hx-swap = "innerHTML"
-          class="bg-orange-300 hover:bg-red-500 text-sm text-white px-2 py-1 rounded"
-          >Usuarios
-          </a>
-      </li>
+  <!-- Imagen destacada -->
+  {% if article.image_url %}
+  <div class="w-full h-64 bg-cover bg-center max-w-md mx-auto space-y-2" style="background-image: url('{{ article.image_url }}');"></div>
+  {% endif %}
 
-    <li>
-      <p><a hx-get="/search"
-        hx-target="#main-content"
-        hx-swap = "innerHTML"
-        class="bg-orange-300 hover:bg-red-500 text-sm text-white px-2 py-1 rounded"
-        >Buscar</a></p>
-    </li>
-  </ul>
-  
-    <p class="text-gray-400">Haz clic en “Artículos” para leer el contenido.</p>
+  <!-- Contenido Markdown -->
+  <main class="p-6 max-w-3xl max-w-none text-justify p-2 space-y-2">
+    <!-- <article class="flex max-w-lg flex-col items-center justify-center rounded-3xl border boder-gray-200 p-7 shadow-2xl"> -->
+      <div id="markdown-content" class="prose prose-invert max-w-none"></div>
+    </article>
   </main>
 
-  <section class="max-w-3xl mx-auto p-6 text-white">
-    <h1 class="text-yellow-400 text-3xl font-bold mb-4">Editorial: Alcances del Observatorio</h1>
-       <p class="text-gray-300 mb-4">
-           El Observatorio de Seguridad es una plataforma independiente dedicada a la publicación de análisis, reflexiones y estudios sobre temas de seguridad, defensa y geopolítica, con énfasis en América Latina y el Caribe.
-       </p>
-       <p class="text-gray-300 mb-4">
-           Nuestro objetivo es ofrecer un espacio abierto y riguroso para investigadores, militares retirados, analistas y ciudadanos que deseen compartir conocimiento, debatir ideas y construir comunidad en torno a los desafíos regionales.
-       </p>
-       <p class="text-gray-300 mb-4">
-           Valoramos el pensamiento crítico, la diversidad de enfoques y el respeto por los derechos de autor. Cada publicación debe ser original, argumentada y visualmente clara, con énfasis en el análisis cualitativo y la contextualización profunda.
-       </p>
-       <p class="text-gray-300 mb-4">
-           Esta plataforma no representa a ninguna institución oficial ni partido político. Las opiniones expresadas son responsabilidad exclusiva de sus autores.
-       </p>
-       <p class="text-gray-300 mb-4">
-           Invitamos a nuestros colaboradores a publicar bajo su nombre o seudónimo, respetando nuestra <a href="/politica-derechos" class="text-blue-400 hover:underline">Política de Derechos de Autor</a> y nuestras normas de moderación.
-       </p>
-       <footer class="mt-8 text-sm text-gray-500 text-center">
-           Última actualización: Noviembre 2025 · Observatorio de Seguridad
-       </footer>
-  </section>
+
+  <div class="mt-8 max-w-md max-w-3xl text-justify p-2 space-y-2">
+    <h3 class="text-yellow-600 text-lg font-sans mb-4 text-left">Comentarios</h3>
+    {% for comment in comments %}
+    <div class="text-sm text-gray-400 bg-gray-200 p-3 rounded mb-2">
+      <p class="text-gray-700 text-justify">{{ comment.content }}</p>
+      <p class="text-gray-400 text-sm text-right">Publicado por {{ comment.user.name }} el {{ comment.createddat }}</p>
+    </div>
+    {% endfor %}
+  </div>
+
+
+
+  <div class="mt-6 max-w-md max-w-none p-2 space-y-2">
+    <h3 class="text-yellow-600 text-lg font-sans mb-4 text-left">Comentar</h3>
+    <form method="post" action="/creacioncoment" hx-swap="innerHTML" class="space-y-2">
+      <input type="hidden" name="article_id" value="{{ article.id }}" />
+      <textarea name="comment" rows="3" class="w-full p-2 rounded bg-gray-200 text-black mb-2 text-justify" placeholder="Escribe tu comentario..."></textarea>
+      <button type="submit" class="bg-yellow-300 text-black px-4 py-2 rounded hover:bg-yellow-200 w-full">Publicar</button>
+    </form>
+    <form action="/" method="get">
+      <button type="submit" class="bg-green-300 text-black px-4 py-2 rounded hover:bg-green-300 w-full">
+        Home
+      </button>
+    </form>
+
+
+  <script type="application/json" id="raw-markdown">
+    {{ article.content | tojson }}
+  </script>
+
+  <script>
+    const rawMarkdown = JSON.parse(document.getElementById("raw-markdown").textContent);
+    document.getElementById("markdown-content").innerHTML = marked.parse(rawMarkdown);
+  
+  </script>
+
+  <script>
+      async function verificarToken() {
+          try {
+              const response = await fetch("/api/protegido", {
+                  method: "GET",
+                  headers: {
+                      "Authorization": "Bearer " + localStorage.getItem("access_token")
+                  }
+              });
+
+              if (response.status === 401) {
+                  const data = await response.json();
+                  if (data.redirect_to === "/login") {
+                      window.location.href = "/login";
+                  }
+              } else {
+                  const data = await response.json();
+                  console.log("Datos protegidos:", data);
+              }
+
+          } catch (error) {
+              console.error("Error al verificar token:", error);
+          }
+      }
+  </script>
+
+
 </body>
 </html>
